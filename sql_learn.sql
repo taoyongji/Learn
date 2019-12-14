@@ -58,7 +58,6 @@ SELECT AVG(sale_price)
 SELECT COUNT(DISTINCT product_type)
 	FROM shop.Product;
 
-
 /*使用GROUP BY子句进行汇总*/
 SELECT product_type, COUNT(*)
 	FROM shop.Product
@@ -170,7 +169,10 @@ DELETE FROM shop.ProductType
 UPDATE shop.Product
 	SET regist_date = '2009-10-10';
 
-
+/*搜索型UPDATE*/
+UPDATE shop.Product
+	SET sale_price = sale_price * 10
+  WHERE product_type = '厨房用具';
 
 
 
