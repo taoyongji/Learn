@@ -13,6 +13,7 @@ ALTER TABLE shop.Product ADD COLUMN product_name_pinyin VARCHAR(100);
 
 ALTER TABLE shop.Product DROP COLUMN product_name_pinyin;
 
+/*事务*/
 START TRANSACTION;
 INSERT INTO shop.Product VALUES('001', 'T恤衫', '衣服', 1000, 500, '2009-09-20');
 INSERT INTO shop.Product VALUES('002', '打孔器', '办公用品', 500, 320, '2009-09-11');
@@ -23,6 +24,7 @@ INSERT INTO shop.Product VALUES('006', '叉子', '厨房用具', 500, NULL, '200
 INSERT INTO shop.Product VALUES('007', '擦菜板', '厨房用具', 880, 790, '2008-04-28');
 INSERT INTO shop.Product VALUES('008', '圆珠笔', '办公用品', 100, NULL, '2009-11-11');
 COMMIT;
+-- ROLLBACN;
 
 /*修改表名*/
 -- RENAME TABLE shop.pro to shop.Product;
@@ -32,7 +34,7 @@ SELECT 	product_id 		AS "商品编号",
         purchase_price	AS "进货单价"
 	FROM shop.Product;
     
-/*删除重复行*/
+/*DISTINCT 去除重复行*/
 SELECT DISTINCT product_type
 	FROM shop.Product;
     
@@ -173,8 +175,30 @@ UPDATE shop.Product
 UPDATE shop.Product
 	SET sale_price = sale_price * 10
   WHERE product_type = '厨房用具';
+  
+-- TRUNCATE shop.Product;
 
+/*多列更新*/
+UPDATE shop.Product
+	SET sale_price = sale_price * 10,
+		purchase_price = purchase_price / 2
+  WHERE product_type = '厨房用具';
 
+/*创建视图
+  避免创建多重视图，因为会降低SQL的性能
+*/
+CREATE VIEW shop.ProductSum (product_type, cnt_product)
+AS
+SELECT product_type, COUNT(*)
+	FROM shop.Product
+  GROUP BY product_type;
+
+/*使用视图*/
+SELECT product_type, cnt_product
+	FROM shop.ProductSum;
+    
+/*删除视图*/
+-- DROP VIEW
 
 
 
