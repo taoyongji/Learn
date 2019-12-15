@@ -26,7 +26,7 @@ $ git commit -m "first commmit"
 
 
 
-使用git log查看历史记录
+使用git log查看历史记录 （按Q退出）
 
 ```git
 $ git log
